@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art Social - Amigos / Para Você</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-exposicoes">
+
+  <!-- SIDEBAR ESQUERDA -->
+  <aside id="sidebar">
+    <nav>
+      <button id="btn-explore" title="Explorar">Explorar</button>
+      <button id="btn-profile" title="Perfil">Perfil</button>
+      <button id="btn-settings" title="Configurações">Config</button>
+      <button id="btn-messages" title="Mensagens">Mensagens</button>
+      <button id="btn-chat" title="Chat">Chat</button>
+      <button id="btn-create" title="Criar">Criar</button>
+    </nav>
+    <button id="btn-help" title="Ajuda">Ajuda</button>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main id="main">
+
+    <!-- TOPO -->
+    <header id="header">
+      <div id="search-area">
+        <input type="text" id="search" placeholder="Buscar arte, artistas, estilos...">
+        <button id="btn-search">Buscar</button>
+      </div>
+
+      <div id="tabs">
+        <button id="tab-amigos" class="tab">Amigos</button>
+        <button id="tab-paravoce" class="tab active">Para Você</button>
+      </div>
+
+      <div id="mode-toggle">
+        <span>Modo</span>
+        <button id="btn-light">Claro</button>
+        <button id="btn-dark">Escuro</button>
+        <button id="btn-extra">Opcoes</button>
+      </div>
+    </header>
+
+    <!-- FEED (placeholder - será ajustado com a imagem) -->
+    <section id="feed">
+      <div class="post">
+        <p id="caption">ONLY 2 colors masterpiece</p>
+
+        <div class="actions">
+          <button id="btn-like">Curtir</button>
+          <button id="btn-like2">Curtir</button>
+          <button id="btn-comment">Comentar</button>
+          <button id="btn-save">Salvar</button>
+          <button id="btn-share">Compartilhar</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
