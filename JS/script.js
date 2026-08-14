@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // =========================================
   // PÁGINA INDEX (LOGIN)
-  // =========================================
   const loginForm = document.getElementById("loginForm");
   if (loginForm) {
     loginForm.addEventListener("submit", function (e) {
@@ -41,10 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-
-  // =========================================
+  
   // PÁGINA EXPOSIÇÕES (ART SOCIAL)
-  // =========================================
+  
   const btnLike     = document.getElementById("btn-like");
   const btnLike2    = document.getElementById("btn-like2");
   const btnComment  = document.getElementById("btn-comment");
