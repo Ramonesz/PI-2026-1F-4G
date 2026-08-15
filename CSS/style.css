@@ -27,8 +27,8 @@ body.page-index header {
 }
 
 body.page-index .logo img {
-  width: 60px;
-  height: 60px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   background: #fff;
   padding: 4px;
@@ -330,11 +330,21 @@ body.page-exposicoes #feed {
 }
 
 body.page-exposicoes .post {
-  max-width: 480px;
   width: 100%;
+  max-width: 420px;
   background: #1a1a1a;
   border-radius: 12px;
-  padding: 20px;
+  padding: 15px;
+  margin: 0 auto;
+  text-align: center;
+}
+body.page-exposicoes .video-post {
+  width: 100%;
+  height: 420px;
+  border-radius: 10px;
+  display: block;
+  object-fit: cover;
+  margin-bottom: 20px;
 }
 
 body.page-exposicoes #caption {
@@ -345,20 +355,22 @@ body.page-exposicoes #caption {
 
 body.page-exposicoes .actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
+
 body.page-exposicoes .actions button {
-  padding: 8px 16px;
+  padding: 8px 12px;
   border: none;
   border-radius: 8px;
   background: #6b4cff;
   color: #fff;
-  font-size: 13px;
+  font-size: 12px;
   cursor: pointer;
-  transition: opacity 0.2s;
 }
 
 body.page-exposicoes .actions button:hover {
@@ -467,7 +479,7 @@ body.page-perfil .avatar {
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #8b6cff, #d56cff);
+  background: #6b4cff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -543,14 +555,21 @@ body.page-perfil .galeria {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
+  width: 100%;
 }
 
 body.page-perfil .arte {
-  aspect-ratio: 1 / 1;
-  border-radius: 10px;
+  aspect-ratio: 3 /4;
   overflow: hidden;
-  background: #222;
+  border-radius: 10px;
 }
+
+body.page-perfil .arte video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}sss
 
 body.page-perfil .arte-placeholder {
   width: 100%;

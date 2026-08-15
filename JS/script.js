@@ -1,9 +1,6 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
-  // ==============================
   // PÁGINA INDEX (LOGIN)
-  // ==============================
-
   const loginForm = document.getElementById("loginForm");
 
   if (loginForm) {
@@ -68,9 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // ==============================
   // PÁGINA EXPOSIÇÕES
-  // ==============================
 
   const btnLike = document.getElementById("btn-like");
   const btnComment = document.getElementById("btn-comment");
@@ -98,9 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let saved = false;
 
 
-    // ==============================
     // CURTIR
-    // ==============================
 
     function toggleLike() {
 
@@ -122,13 +115,11 @@ document.addEventListener("DOMContentLoaded", () => {
     btnLike.addEventListener("click", toggleLike);
 
 
-    // ==============================
     // COMENTAR
-    // ==============================
 
     if (btnComment) {
 
-      btnComment.addEventListener("click", () => {
+      btnComment.addEventListener("click", function () {
 
         const comentario = prompt("Escreva seu comentario:");
 
@@ -141,13 +132,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ==============================
     // SALVAR
-    // ==============================
 
     if (btnSave) {
 
-      btnSave.addEventListener("click", () => {
+      btnSave.addEventListener("click", function () {
 
         saved = !saved;
 
@@ -168,16 +157,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ==============================
     // COMPARTILHAR
-    // ==============================
 
     if (btnShare) {
 
-      btnShare.addEventListener("click", () => {
+      btnShare.addEventListener("click", function () {
 
         const texto =
-          "Olha essa arte: ONLY 2 colors masterpiece";
+          "Minha primeira paisagem com guache!!";
 
         if (navigator.share) {
 
@@ -185,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
             title: "Art Social",
             text: texto,
             url: window.location.href
-          }).catch(() => {
+          }).catch(function () {
 
             alert(
               "Link: " +
@@ -210,9 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ==============================
     // ABAS
-    // ==============================
 
     function setTab(tab) {
 
@@ -237,30 +222,25 @@ document.addEventListener("DOMContentLoaded", () => {
         tabParaVoce.classList.add("active");
 
         if (caption) {
-          caption.textContent = "ONLY 2 colors masterpiece";
+          caption.textContent = "Minha primeira paisagem com tinta guache!!";
         }
 
       }
 
     }
 
+    tabAmigos.addEventListener("click", function () {
+      setTab("amigos");
+    });
 
-    tabAmigos.addEventListener(
-      "click",
-      () => setTab("amigos")
-    );
-
-    tabParaVoce.addEventListener(
-      "click",
-      () => setTab("paravoce")
-    );
+    tabParaVoce.addEventListener("click", function () {
+      setTab("paravoce");
+    });
 
     setTab("paravoce");
 
 
-    // ==============================
     // MODO CLARO / ESCURO
-    // ==============================
 
     function setMode(dark) {
 
@@ -324,25 +304,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     if (btnLight) {
-      btnLight.addEventListener(
-        "click",
-        () => setMode(false)
-      );
+
+      btnLight.addEventListener("click", function () {
+        setMode(false);
+      });
+
     }
 
     if (btnDark) {
-      btnDark.addEventListener(
-        "click",
-        () => setMode(true)
-      );
+
+      btnDark.addEventListener("click", function () {
+        setMode(true);
+      });
+
     }
 
     setMode(true);
 
 
-    // ==============================
     // BUSCA
-    // ==============================
 
     function fazerBusca() {
 
@@ -366,17 +346,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     if (btnSearch) {
+
       btnSearch.addEventListener(
         "click",
         fazerBusca
       );
+
     }
+
 
     if (searchInput) {
 
       searchInput.addEventListener(
         "keypress",
-        (e) => {
+        function (e) {
 
           if (e.key === "Enter") {
             fazerBusca();
@@ -388,9 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ==============================
     // SIDEBAR
-    // ==============================
 
     const btnExplore =
       document.getElementById("btn-explore");
@@ -418,7 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (btnExplore) {
 
-      btnExplore.addEventListener("click", () => {
+      btnExplore.addEventListener("click", function () {
 
         alert("Você já está na página Explorar!");
 
@@ -431,7 +412,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (btnProfile) {
 
-      btnProfile.addEventListener("click", () => {
+      btnProfile.addEventListener("click", function () {
 
         window.location.href = "perfil.html";
 
@@ -444,7 +425,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (btnCreate) {
 
-      btnCreate.addEventListener("click", () => {
+      btnCreate.addEventListener("click", function () {
 
         window.location.href = "criar.html";
 
@@ -457,7 +438,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (btnSettings) {
 
-      btnSettings.addEventListener("click", () => {
+      btnSettings.addEventListener("click", function () {
 
         alert("Abrindo Configurações...");
 
@@ -470,7 +451,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (btnMessages) {
 
-      btnMessages.addEventListener("click", () => {
+      btnMessages.addEventListener("click", function () {
 
         alert("Abrindo Mensagens...");
 
@@ -483,7 +464,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (btnChat) {
 
-      btnChat.addEventListener("click", () => {
+      btnChat.addEventListener("click", function () {
 
         alert("Abrindo Chat...");
 
@@ -496,7 +477,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (btnHelp) {
 
-      btnHelp.addEventListener("click", () => {
+      btnHelp.addEventListener("click", function () {
 
         alert("Ajuda / Suporte");
 
@@ -507,9 +488,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // ==============================
   // PÁGINA CRIAR
-  // ==============================
 
   const arquivo =
     document.getElementById("arquivo");
@@ -525,7 +504,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (arquivo) {
 
-    arquivo.addEventListener("change", () => {
+    arquivo.addEventListener("change", function () {
 
       if (arquivo.files.length > 0) {
 
@@ -544,7 +523,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (criarForm) {
 
-    criarForm.addEventListener("submit", (e) => {
+    criarForm.addEventListener("submit", function (e) {
 
       e.preventDefault();
 
@@ -562,6 +541,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   }
-
 
 });
