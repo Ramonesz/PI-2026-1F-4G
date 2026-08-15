@@ -17,16 +17,22 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btnContinuar) {
     btnContinuar.addEventListener("click", function () {
       alert("Continuando sem conta... Bem-vindo ao Arty!");
-      // window.location.href = "exposicoes.html"; // descomente se quiser redirecionar
+       window.location.href = "exposicoes.html"; // descomente se quiser redirecionar
     });
   }
 
   const btnAjuda = document.getElementById("btnAjuda");
-  if (btnAjuda) {
+
+if (btnAjuda) {
     btnAjuda.addEventListener("click", function () {
-      alert("Sobre Nós – Em breve!");
+        alert(
+            "Sobre Nós\n\n" +
+            "O Arty é uma plataforma de vídeos curtos voltada para a arte. " +
+            "Aqui, artistas podem compartilhar seus trabalhos e usuários podem " +
+            "descobrir, explorar e interagir com diferentes formas de arte."
+        );
     });
-  }
+}
 
   const searchInputIndex = document.getElementById("searchInput");
   if (searchInputIndex) {
@@ -39,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  
+
   // PÁGINA EXPOSIÇÕES (ART SOCIAL)
   
   const btnLike     = document.getElementById("btn-like");
@@ -64,17 +70,17 @@ document.addEventListener("DOMContentLoaded", () => {
     let isDark = true;
 
     // CURTIR
-    function toggleLike() {
-      liked = !liked;
-      if (liked) {
-        btnLike.textContent = "Curtido";
-        if (btnLike2) btnLike2.textContent = "Curtido";
-        alert("Voce curtiu a arte!");
-      } else {
-        btnLike.textContent = "Curtir";
-        if (btnLike2) btnLike2.textContent = "Curtir";
-      }
+       function toggleLike() {
+        liked = !liked;
+
+        if (liked) {
+            btnLike.textContent = "Curtido";
+            alert("Você curtiu a arte!");
+        } else {
+            btnLike.textContent = "Curtir";
+        }
     }
+
 
     btnLike.addEventListener("click", toggleLike);
     if (btnLike2) btnLike2.addEventListener("click", toggleLike);
