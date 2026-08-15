@@ -199,9 +199,6 @@ body.page-index footer p {
   font-size: 10px;
 }
 
-/* =========================================
-   PÁGINA EXPOSIÇÕES (ART SOCIAL)
-   ========================================= */
 body.page-exposicoes {
   display: flex;
   height: 100vh;
