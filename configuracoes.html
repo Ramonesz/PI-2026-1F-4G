@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arty – Perfil</title>
+  <title>Arty – Configurações</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="page-perfil app-shell">
+<body class="page-configuracoes app-shell">
 
   <!-- SIDEBAR ESQUERDA -->
   <aside id="sidebar">
@@ -18,7 +18,7 @@
       <a href="exposicoes.html" class="nav-btn" title="Explorar">
         <svg class="nav-icon" viewBox="0 0 24 24"><circle class="icon-stroke" cx="12" cy="12" r="9"/><ellipse class="icon-stroke" cx="12" cy="12" rx="4" ry="9"/><line class="icon-stroke" x1="3" y1="12" x2="21" y2="12"/></svg>
       </a>
-      <a href="configuracoes.html" class="nav-btn" title="Configurações">
+      <a href="configuracoes.html" class="nav-btn active" title="Configurações">
         <svg class="nav-icon" viewBox="0 0 24 24"><circle class="icon-fill" cx="12" cy="12" r="3"/><circle class="icon-stroke" cx="12" cy="12" r="7.2"/><g class="icon-fill">
 <rect x="11" y="1" width="2" height="4" rx="1"/>
 <rect x="11" y="1" width="2" height="4" rx="1" transform="rotate(45 12 12)"/>
@@ -41,37 +41,26 @@
   <main id="main">
 
     <header id="header">
-      <span class="page-title">Perfil</span>
+      <span class="page-title">Configurações</span>
     </header>
 
-    <section id="feed" style="flex-direction:column; align-items:stretch; padding:0;">
+    <section id="feed">
+      <div class="settings-panel">
 
-      <div class="profile-header">
-        <!-- Espaço reservado para a foto de perfil -->
-        <div class="profile-avatar-lg">
-          <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5z"/></svg>
+        <div class="settings-section">
+          <h3>Aparência</h3>
+          <div class="mode-btns">
+            <button id="btnModoClaro">Modo Claro</button>
+            <button id="btnModoEscuro" class="active-mode">Modo Escuro</button>
+          </div>
         </div>
-        <div>
-          <div class="profile-name">Seu Nome</div>
-          <p class="profile-bio">Artista e criador(a) na Arty. Conte um pouco sobre seu estilo e suas inspirações aqui.</p>
-          <button class="edit-profile-btn" id="btnEditProfile">Editar perfil</button>
+
+        <div class="settings-section">
+          <h3>Conta</h3>
+          <button class="logout-btn" id="btnLogout">Deslogar da conta</button>
         </div>
-      </div>
 
-      <div class="profile-grid">
-        <div class="grid-item">Vídeo 1</div>
-        <div class="grid-item">Vídeo 2</div>
-        <div class="grid-item">Vídeo 3</div>
-        <div class="grid-item">Vídeo 4</div>
-        <div class="grid-item">Vídeo 5</div>
-        <div class="grid-item">Vídeo 6</div>
       </div>
-
-      <h3 class="profile-section-title">Vídeos salvos</h3>
-      <div class="profile-grid" id="savedVideosGrid">
-        <p class="empty-saved-msg" id="emptySavedMsg">Você ainda não salvou nenhum vídeo.</p>
-      </div>
-
     </section>
 
   </main>
@@ -81,19 +70,6 @@
     <span class="bolinha">?</span>
     Sobre Nós
   </button>
-
-  <!-- Modal "Editar Perfil" -->
-  <div class="modal-overlay" id="modalEditProfile">
-    <div class="modal-card">
-      <button class="modal-close" id="modalEditProfileClose" aria-label="Fechar">&times;</button>
-      <h2>Editar perfil</h2>
-      <label for="editNome">Nome de usuário</label>
-      <input type="text" id="editNome" placeholder="Seu nome de usuário">
-      <label for="editBio">Descrição</label>
-      <textarea id="editBio" rows="3" placeholder="Conte um pouco sobre seu estilo e suas inspirações"></textarea>
-      <button class="edit-profile-btn edit-profile-save" id="btnSalvarPerfil">Salvar alterações</button>
-    </div>
-  </div>
 
   <!-- Modal "Sobre Nós" -->
   <div class="modal-overlay" id="modalSobreNos">
