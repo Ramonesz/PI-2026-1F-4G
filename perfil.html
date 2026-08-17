@@ -34,7 +34,6 @@
         <svg class="nav-icon" viewBox="0 0 24 24"><path class="icon-fill" d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
       </a>
     </nav>
-    <button id="btn-help" title="Ajuda">Ajuda</button>
   </aside>
 
   <!-- CONTEÚDO PRINCIPAL -->
@@ -58,15 +57,6 @@
         </div>
       </div>
 
-      <div class="profile-grid">
-        <div class="grid-item">Vídeo 1</div>
-        <div class="grid-item">Vídeo 2</div>
-        <div class="grid-item">Vídeo 3</div>
-        <div class="grid-item">Vídeo 4</div>
-        <div class="grid-item">Vídeo 5</div>
-        <div class="grid-item">Vídeo 6</div>
-      </div>
-
       <h3 class="profile-section-title">Vídeos salvos</h3>
       <div class="profile-grid" id="savedVideosGrid">
         <p class="empty-saved-msg" id="emptySavedMsg">Você ainda não salvou nenhum vídeo.</p>
@@ -87,11 +77,30 @@
     <div class="modal-card">
       <button class="modal-close" id="modalEditProfileClose" aria-label="Fechar">&times;</button>
       <h2>Editar perfil</h2>
+
+      <label>Foto de perfil</label>
+      <div class="edit-avatar-row">
+        <div class="edit-avatar-preview" id="editAvatarPreview">
+          <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5z"/></svg>
+        </div>
+        <label for="editFotoInput" class="edit-avatar-upload-btn">Escolher imagem</label>
+        <input type="file" id="editFotoInput" accept="image/*" style="display:none;">
+      </div>
+
       <label for="editNome">Nome de usuário</label>
       <input type="text" id="editNome" placeholder="Seu nome de usuário">
       <label for="editBio">Descrição</label>
       <textarea id="editBio" rows="3" placeholder="Conte um pouco sobre seu estilo e suas inspirações"></textarea>
       <button class="edit-profile-btn edit-profile-save" id="btnSalvarPerfil">Salvar alterações</button>
+    </div>
+  </div>
+
+  <!-- Modal "Assistir vídeo salvo" -->
+  <div class="modal-overlay" id="modalVideoPlayer">
+    <div class="modal-card modal-card-video">
+      <button class="modal-close" id="modalVideoPlayerClose" aria-label="Fechar">&times;</button>
+      <video id="modalVideoPlayerVideo" playsinline></video>
+      <p class="modal-video-label" id="modalVideoPlayerLabel"></p>
     </div>
   </div>
 
@@ -101,7 +110,7 @@
       <button class="modal-close" id="modalSobreNosClose" aria-label="Fechar">&times;</button>
       <h2>Sobre a Arty</h2>
       <p>A Arty é uma plataforma de vídeos curtos dedicada à arte. Aqui você descobre, assiste e compartilha produções artísticas de criadores de todos os estilos.</p>
-      <p>Publique suas próprias criações, curta, comente e interaja com outros artistas em um feed feito para inspirar.</p>
+      <p>É um app pensado para artistas encontrarem ideias e referências de forma rápida e prática, direto no feed, para inspirar novas criações no dia a dia.</p>
       <p>Este projeto foi desenvolvido como trabalho acadêmico no Instituto Federal Catarinense – Campus Concórdia.</p>
     </div>
   </div>

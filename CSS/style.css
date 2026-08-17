@@ -107,6 +107,48 @@ body.page-index .search-wrapper {
   width: 100%;
   max-width: 460px;
   margin-bottom: 22px;
+  position: relative;
+}
+
+.search-suggestions {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+  z-index: 5;
+}
+
+.search-suggestions.open {
+  display: block;
+}
+
+.search-suggestions .suggestion-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 9px 15px;
+  border: none;
+  background: none;
+  color: #333;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.search-suggestions .suggestion-item:hover {
+  background: #f0edff;
+  color: #6c3ce9;
+}
+
+.search-suggestions .suggestion-empty {
+  padding: 9px 15px;
+  font-size: 11px;
+  color: #999;
 }
 
 body.page-index .search-wrapper input {
@@ -162,6 +204,19 @@ body.page-index .login-card button {
   cursor: pointer;
   margin-bottom: 6px;
   transition: opacity 0.2s ease;
+}
+
+body.page-index .login-card .field-error {
+  display: block;
+  color: #ff3b5c;
+  font-size: 10px;
+  font-weight: 500;
+  margin: -4px 0 8px;
+  min-height: 12px;
+}
+
+body.page-index .login-card input.input-error {
+  border-color: #ff3b5c;
 }
 
 body.page-index .login-card button[type="submit"] {
@@ -617,11 +672,6 @@ body.app-shell.light-mode .action-btn .icon-fill {
   fill: #222;
 }
 
-body.app-shell.light-mode .action-btn#btn-like.liked .icon-stroke {
-  fill: #ff3b5c;
-  stroke: #ff3b5c;
-}
-
 body.app-shell.light-mode .settings-section h3 {
   color: #666;
 }
@@ -767,6 +817,49 @@ body.app-shell.light-mode .notif-time {
   height: 100%;
   border: none;
   object-fit: cover;
+  cursor: pointer;
+}
+
+.video-rect {
+  cursor: grab;
+}
+
+.video-rect:active {
+  cursor: grabbing;
+}
+
+.video-next-btn {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 3;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.video-next-btn:hover {
+  background: rgba(107, 76, 255, 0.85);
+  transform: translateX(-50%) translateY(2px);
+}
+
+.video-next-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .video-placeholder {
@@ -844,12 +937,6 @@ body.app-shell.light-mode .notif-time {
   transition: all 0.2s;
 }
 
-/* Curtir vira vermelho */
-.action-btn#btn-like.liked .icon-stroke {
-  fill: #ff3b5c;
-  stroke: #ff3b5c;
-}
-
 /* Salvar vira amarelo */
 .action-btn#btn-save.saved .flag-flag {
   fill: #ffd23f;
@@ -902,6 +989,26 @@ body.app-shell.light-mode .notif-time {
   cursor: pointer;
   font-size: 13px;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-icon {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+body.app-shell #mode-toggle button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
 }
 
 .mode-btns button.active-mode {
@@ -997,6 +1104,76 @@ body.app-shell.light-mode .notif-time {
   background: #6b4cff;
   border-color: #6b4cff;
   color: #fff;
+}
+
+/* Upload de foto de perfil dentro do modal "Editar perfil" */
+.edit-avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.edit-avatar-preview {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #6b4cff;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-avatar-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.edit-avatar-preview svg {
+  width: 30px;
+  height: 30px;
+  fill: #fff;
+}
+
+.edit-avatar-upload-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #6b4cff;
+  background: transparent;
+  color: #6b4cff;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.edit-avatar-upload-btn:hover {
+  background: rgba(107, 76, 255, 0.1);
+}
+
+/* Indicador visual de comentário salvo no vídeo */
+.action-btn#btn-comment {
+  position: relative;
+}
+
+.action-btn#btn-comment.has-comment::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #6b4cff;
+  border: 2px solid #1a1a1a;
+}
+
+body.app-shell.light-mode .action-btn#btn-comment.has-comment::after {
+  border-color: #ffffff;
 }
 
 /* =========================================
@@ -1142,13 +1319,13 @@ body.app-shell.light-mode .notif-time {
   display: flex;
   align-items: center;
   gap: 22px;
-  padding: 40px 36px 20px;
+  padding: 18px 36px 20px;
   flex-wrap: wrap;
 }
 
 .profile-avatar-lg {
-  width: 96px;
-  height: 96px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   background: #6b4cff;
   display: flex;
@@ -1165,8 +1342,8 @@ body.app-shell.light-mode .notif-time {
 }
 
 .profile-avatar-lg svg {
-  width: 52px;
-  height: 52px;
+  width: 74px;
+  height: 74px;
   fill: #fff;
 }
 
@@ -1310,4 +1487,36 @@ body.app-shell.light-mode .notif-time {
   color: #888;
   margin-left: auto;
   white-space: nowrap;
+}
+
+/* =========================================
+   MODAL "ASSISTIR VÍDEO SALVO" (página Perfil)
+   ========================================= */
+.modal-card-video {
+  max-width: 320px;
+  padding: 16px;
+  background: #0f0f0f;
+}
+
+.modal-card-video .modal-close {
+  color: #ccc;
+}
+
+.modal-card-video .modal-close:hover {
+  color: #fff;
+}
+
+#modalVideoPlayerVideo {
+  width: 100%;
+  max-height: 70vh;
+  border-radius: 10px;
+  background: #000;
+  display: block;
+}
+
+.modal-video-label {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 13px;
+  color: #ccc;
 }

@@ -2,21 +2,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // =========================================
   // CATEGORIAS E VÍDEOS
-  // Envie os links dos próximos vídeos e eu preencho
-  // os arrays "videos" de cada categoria abaixo.
+  // vid1-5   → Ideias de Desenho
+  // vid6-10  → Pinturas
+  // vid11-15 → Escultura   (aguardando envio dos vídeos)
+  // vid16-20 → Design Digital (aguardando envio dos vídeos)
   // =========================================
   const categorias = [
     {
       id: "ideias-desenho",
-      nome: "Ideias de desenho",
+      nome: "Ideias de Desenho",
       videos: [
-        { src: "videos/vid1.mp4", caption: "ONLY 2 colors masterpiece" }
+        { src: "videos/vid1.mp4" },
+        { src: "videos/vid2.mp4" },
+        { src: "videos/vid3.mp4" },
+        { src: "videos/vid4.mp4" },
+        { src: "videos/vid5.mp4" }
       ]
     },
-    { id: "pintura", nome: "Pintura", videos: [] },
-    { id: "fotografia", nome: "Fotografia", videos: [] },
-    { id: "escultura", nome: "Escultura", videos: [] },
-    { id: "design-digital", nome: "Design digital", videos: [] }
+    {
+      id: "pinturas",
+      nome: "Pinturas",
+      videos: [
+        { src: "videos/vid6.mp4" },
+        { src: "videos/vid7.mp4" },
+        { src: "videos/vid8.mp4" },
+        { src: "videos/vid9.mp4" },
+        { src: "videos/vid10.mp4" }
+      ]
+    },
+    {
+      id: "escultura",
+      nome: "Escultura",
+      videos: [
+        { src: "videos/vid11.mp4" },
+        { src: "videos/vid12.mp4" },
+        { src: "videos/vid13.mp4" },
+        { src: "videos/vid14.mp4" },
+        { src: "videos/vid15.mp4" }
+      ]
+    },
+    {
+      id: "design-digital",
+      nome: "Design Digital",
+      videos: [
+        { src: "videos/vid16.mp4" },
+        { src: "videos/vid17.mp4" },
+        { src: "videos/vid18.mp4" },
+        { src: "videos/vid19.mp4" },
+        { src: "videos/vid20.mp4" }
+      ]
+    }
   ];
 
   // =========================================
@@ -45,9 +80,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================================
-  // IDENTIDADE DO USUÁRIO (nome, foto e bio)
-  // Preenchida pelo login com Google (simulado) ou pela edição de perfil
+  // IDENTIDADE DO USUÁRIO (nome e foto vêm do login)
   // =========================================
+  function definirIdentidadeSeNecessario(nomeBase) {
+    if (localStorage.getItem("artyUserName") && localStorage.getItem("artyUserPhoto")) return;
+    const nomeFormatado = nomeBase.charAt(0).toUpperCase() + nomeBase.slice(1);
+    const foto = "https://ui-avatars.com/api/?background=6b4cff&color=fff&size=128&name=" + encodeURIComponent(nomeFormatado);
+    localStorage.setItem("artyUserName", nomeFormatado);
+    localStorage.setItem("artyUserPhoto", foto);
+  }
+
   function carregarIdentidade() {
     const nome = localStorage.getItem("artyUserName");
     const foto = localStorage.getItem("artyUserPhoto");
@@ -76,6 +118,23 @@ document.addEventListener("DOMContentLoaded", () => {
   // PÁGINA INDEX (LOGIN)
   // =========================================
   const loginForm = document.getElementById("loginForm");
+  const senhaInputEl = document.getElementById("senha");
+  const senhaErrorEl = document.getElementById("senhaError");
+
+  function limparErroSenha() {
+    if (senhaErrorEl) senhaErrorEl.textContent = "";
+    if (senhaInputEl) senhaInputEl.classList.remove("input-error");
+  }
+
+  function mostrarErroSenha(msg) {
+    if (senhaErrorEl) senhaErrorEl.textContent = msg;
+    if (senhaInputEl) senhaInputEl.classList.add("input-error");
+  }
+
+  if (senhaInputEl) {
+    senhaInputEl.addEventListener("input", limparErroSenha);
+  }
+
   if (loginForm) {
     loginForm.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -84,20 +143,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!email || !senha) return;
 
+      limparErroSenha();
+
       const usuarios = JSON.parse(localStorage.getItem("artyUsers") || "[]");
       const existente = usuarios.find((u) => u.email === email);
 
       if (existente) {
         if (existente.senha === senha) {
           localStorage.setItem("artySession", email);
+          definirIdentidadeSeNecessario(email.split("@")[0]);
           window.location.href = "exposicoes.html";
         } else {
-          alert("Senha incorreta. Tente novamente.");
+          mostrarErroSenha("Senha incorreta. Tente novamente.");
         }
       } else {
         usuarios.push({ email, senha });
         localStorage.setItem("artyUsers", JSON.stringify(usuarios));
         localStorage.setItem("artySession", email);
+        definirIdentidadeSeNecessario(email.split("@")[0]);
         alert("Conta criada com sucesso! Bem-vindo(a) à Arty.");
         window.location.href = "exposicoes.html";
       }
@@ -108,6 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btnContinuar) {
     btnContinuar.addEventListener("click", function () {
       localStorage.setItem("artySession", "guest");
+      definirIdentidadeSeNecessario("Convidado");
       window.location.href = "exposicoes.html";
     });
   }
@@ -130,13 +194,53 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const searchInputIndex = document.getElementById("searchInput");
-  if (searchInputIndex) {
+  const searchSuggestionsIndex = document.getElementById("searchSuggestions");
+
+  function irParaCategoria(nomeCategoria) {
+    window.location.href = "exposicoes.html?q=" + encodeURIComponent(nomeCategoria);
+  }
+
+  function renderizarSugestoesIndex(filtro) {
+    if (!searchSuggestionsIndex) return;
+    const termo = (filtro || "").trim().toLowerCase();
+    const opcoes = categorias.filter((c) => !termo || c.nome.toLowerCase().includes(termo));
+
+    searchSuggestionsIndex.innerHTML = "";
+
+    if (!opcoes.length) {
+      const vazio = document.createElement("div");
+      vazio.className = "suggestion-empty";
+      vazio.textContent = "Nenhuma categoria encontrada";
+      searchSuggestionsIndex.appendChild(vazio);
+    } else {
+      opcoes.forEach((cat) => {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "suggestion-item";
+        item.textContent = cat.nome;
+        item.addEventListener("mousedown", (e) => {
+          // mousedown (em vez de click) evita que o blur do input feche a lista antes do clique
+          e.preventDefault();
+          irParaCategoria(cat.nome);
+        });
+        searchSuggestionsIndex.appendChild(item);
+      });
+    }
+
+    searchSuggestionsIndex.classList.add("open");
+  }
+
+  if (searchInputIndex && searchSuggestionsIndex) {
+    searchInputIndex.addEventListener("focus", () => renderizarSugestoesIndex(searchInputIndex.value));
+    searchInputIndex.addEventListener("input", () => renderizarSugestoesIndex(searchInputIndex.value));
+    searchInputIndex.addEventListener("blur", () => {
+      searchSuggestionsIndex.classList.remove("open");
+    });
+
     searchInputIndex.addEventListener("keypress", function (e) {
       if (e.key === "Enter") {
         const query = this.value.trim();
-        if (query) {
-          window.location.href = "exposicoes.html?q=" + encodeURIComponent(query);
-        }
+        if (query) irParaCategoria(query);
       }
     });
   }
@@ -151,21 +255,15 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.toggle("light-mode", !escuro);
     localStorage.setItem("artyTheme", escuro ? "dark" : "light");
 
-    const btnLight = document.getElementById("btn-light");
-    const btnDark = document.getElementById("btn-dark");
-    if (btnLight) {
-      btnLight.classList.toggle("active-mode", !escuro);
-      btnLight.textContent = !escuro ? "Claro (ativo)" : "Claro";
-    }
-    if (btnDark) {
-      btnDark.classList.toggle("active-mode", escuro);
-      btnDark.textContent = escuro ? "Escuro (ativo)" : "Escuro";
-    }
+    const btnLightEl = document.getElementById("btn-light");
+    const btnDarkEl = document.getElementById("btn-dark");
+    if (btnLightEl) btnLightEl.classList.toggle("active-mode", !escuro);
+    if (btnDarkEl) btnDarkEl.classList.toggle("active-mode", escuro);
 
-    const btnModoClaro = document.getElementById("btnModoClaro");
-    const btnModoEscuro = document.getElementById("btnModoEscuro");
-    if (btnModoClaro) btnModoClaro.classList.toggle("active-mode", !escuro);
-    if (btnModoEscuro) btnModoEscuro.classList.toggle("active-mode", escuro);
+    const btnModoClaroEl = document.getElementById("btnModoClaro");
+    const btnModoEscuroEl = document.getElementById("btnModoEscuro");
+    if (btnModoClaroEl) btnModoClaroEl.classList.toggle("active-mode", !escuro);
+    if (btnModoEscuroEl) btnModoEscuroEl.classList.toggle("active-mode", escuro);
   }
 
   if (document.body.classList.contains("app-shell")) {
@@ -183,20 +281,22 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btnModoEscuro) btnModoEscuro.addEventListener("click", () => aplicarTema(true));
 
   // =========================================
-  // PÁGINA EXPOSIÇÕES (vídeos curtos)
+  // PÁGINA EXPOSIÇÕES (vídeos curtos, estilo Reels)
   // =========================================
   const categoryBar = document.getElementById("categoryBar");
   const videoPlayer = document.getElementById("videoPlayer");
+  const videoRect = document.getElementById("videoRect");
   const videoPlaceholder = document.getElementById("videoPlaceholder");
   const caption = document.getElementById("caption");
-  const btnLike = document.getElementById("btn-like");
   const btnComment = document.getElementById("btn-comment");
   const btnSave = document.getElementById("btn-save");
   const btnShare = document.getElementById("btn-share");
+  const btnNextVideo = document.getElementById("btn-next-video");
   const searchInput = document.getElementById("search");
   const btnSearch = document.getElementById("btn-search");
 
   let categoriaAtual = null;
+  let indiceVideoAtual = 0;
   let videoAtual = null;
 
   function getSavedVideos() {
@@ -211,7 +311,23 @@ document.addEventListener("DOMContentLoaded", () => {
     return getSavedVideos().some((v) => v.src === src);
   }
 
-  function carregarVideo(catIndex) {
+  // Garante que o vídeo fique sempre mudo e com volume travado em 0
+  function travarVolume(video) {
+    if (!video || video.dataset.volumeTravado) return;
+    video.dataset.volumeTravado = "1";
+    video.muted = true;
+    video.volume = 0;
+    video.addEventListener("volumechange", () => {
+      if (!video.muted || video.volume !== 0) {
+        video.muted = true;
+        video.volume = 0;
+      }
+    });
+  }
+
+  if (videoPlayer) travarVolume(videoPlayer);
+
+  function carregarVideoPorIndice(catIndex, videoIndex) {
     const cat = categorias[catIndex];
     if (!cat) return;
     categoriaAtual = cat;
@@ -221,12 +337,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (!cat.videos.length) {
+      indiceVideoAtual = 0;
       videoAtual = null;
       if (videoPlayer) {
         videoPlayer.pause();
         videoPlayer.removeAttribute("src");
         videoPlayer.style.display = "none";
       }
+      if (btnNextVideo) btnNextVideo.style.display = "none";
       if (videoPlaceholder) {
         videoPlaceholder.style.display = "flex";
         videoPlaceholder.innerHTML = `<span>Nenhum vídeo ainda</span><small>A categoria "${cat.nome}" ainda não tem vídeos publicados.</small>`;
@@ -236,14 +354,40 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    videoAtual = cat.videos[0];
+    indiceVideoAtual = ((videoIndex % cat.videos.length) + cat.videos.length) % cat.videos.length;
+    videoAtual = cat.videos[indiceVideoAtual];
+
     if (videoPlaceholder) videoPlaceholder.style.display = "none";
     if (videoPlayer) {
-      videoPlayer.src = videoAtual.src;
       videoPlayer.style.display = "block";
+      videoPlayer.src = videoAtual.src;
+      videoPlayer.loop = true;
+      videoPlayer.muted = true;
+      videoPlayer.volume = 0;
+      videoPlayer.onerror = () => {
+        // Arquivo de vídeo ainda não foi enviado para esta categoria
+        videoPlayer.style.display = "none";
+        if (videoPlaceholder) {
+          videoPlaceholder.style.display = "flex";
+          videoPlaceholder.innerHTML = `<span>Vídeo em breve</span><small>Este vídeo da categoria "${cat.nome}" ainda não foi publicado.</small>`;
+        }
+      };
+      videoPlayer.play().catch(() => {});
     }
-    if (caption) caption.textContent = videoAtual.caption || "";
+    if (btnNextVideo) btnNextVideo.style.display = cat.videos.length > 1 ? "flex" : "none";
+    if (caption) caption.textContent = cat.nome;
     if (btnSave) btnSave.classList.toggle("saved", isVideoSaved(videoAtual.src));
+    atualizarIndicadorComentario();
+  }
+
+  function carregarCategoria(catIndex) {
+    carregarVideoPorIndice(catIndex, 0);
+  }
+
+  function proximoVideo() {
+    if (!categoriaAtual || !categoriaAtual.videos.length) return;
+    const catIndex = categorias.indexOf(categoriaAtual);
+    carregarVideoPorIndice(catIndex, indiceVideoAtual + 1);
   }
 
   function renderizarCategorias(filtro) {
@@ -257,34 +401,70 @@ document.addEventListener("DOMContentLoaded", () => {
       chip.className = "category-chip";
       chip.type = "button";
       chip.textContent = cat.nome;
-      chip.addEventListener("click", () => carregarVideo(i));
+      chip.addEventListener("click", () => carregarCategoria(i));
       categoryBar.appendChild(chip);
     });
   }
 
   if (categoryBar) {
     renderizarCategorias();
-    carregarVideo(0);
+    carregarCategoria(0);
   }
 
-  if (btnLike) {
-    let liked = false;
-    btnLike.addEventListener("click", () => {
-      liked = !liked;
-      btnLike.classList.toggle("liked", liked);
+  // Clique no vídeo alterna play/pause (já que o controle nativo foi removido)
+  if (videoPlayer) {
+    videoPlayer.addEventListener("click", () => {
+      if (videoPlayer.paused) {
+        videoPlayer.play().catch(() => {});
+      } else {
+        videoPlayer.pause();
+      }
     });
+  }
+
+  // Botão de seta para baixo → próximo vídeo
+  if (btnNextVideo) {
+    btnNextVideo.addEventListener("click", (e) => {
+      e.stopPropagation();
+      proximoVideo();
+    });
+  }
+
+  // Arrastar para baixo (mouse ou toque) → próximo vídeo
+  if (videoRect) {
+    const LIMIAR_ARRASTE = 60;
+    let inicioY = null;
+
+    const iniciarArraste = (y) => { inicioY = y; };
+    const finalizarArraste = (y) => {
+      if (inicioY === null) return;
+      const delta = y - inicioY;
+      inicioY = null;
+      if (delta > LIMIAR_ARRASTE) proximoVideo();
+    };
+
+    videoRect.addEventListener("mousedown", (e) => iniciarArraste(e.clientY));
+    window.addEventListener("mouseup", (e) => finalizarArraste(e.clientY));
+
+    videoRect.addEventListener("touchstart", (e) => {
+      if (e.touches[0]) iniciarArraste(e.touches[0].clientY);
+    }, { passive: true });
+
+    videoRect.addEventListener("touchend", (e) => {
+      if (e.changedTouches[0]) finalizarArraste(e.changedTouches[0].clientY);
+    }, { passive: true });
   }
 
   if (btnSave) {
     btnSave.addEventListener("click", () => {
-      if (!videoAtual) return;
+      if (!videoAtual || !categoriaAtual) return;
       let lista = getSavedVideos();
       const jaSalvo = lista.some((v) => v.src === videoAtual.src);
 
       if (jaSalvo) {
         lista = lista.filter((v) => v.src !== videoAtual.src);
       } else {
-        lista.push({ src: videoAtual.src, caption: videoAtual.caption });
+        lista.push({ src: videoAtual.src, categoria: categoriaAtual.nome });
       }
 
       setSavedVideos(lista);
@@ -292,12 +472,45 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Comentários privados: só o usuário logado vê o próprio comentário de cada vídeo
+  function chaveUsuarioAtual() {
+    return localStorage.getItem("artySession") || "guest";
+  }
+
+  function getComentarios() {
+    return JSON.parse(localStorage.getItem("artyComments") || "{}");
+  }
+
+  function setComentarios(obj) {
+    localStorage.setItem("artyComments", JSON.stringify(obj));
+  }
+
+  // Indica visualmente (bolinha no botão Comentar) que o vídeo atual já tem comentário salvo
+  function temComentario(src) {
+    if (!src) return false;
+    const comentarios = getComentarios();
+    const chave = chaveUsuarioAtual() + "::" + src;
+    return !!(comentarios[chave] && comentarios[chave].trim());
+  }
+
+  function atualizarIndicadorComentario() {
+    if (!btnComment) return;
+    btnComment.classList.toggle("has-comment", videoAtual ? temComentario(videoAtual.src) : false);
+  }
+
   if (btnComment) {
     btnComment.addEventListener("click", () => {
-      const comentario = prompt("Escreva seu comentário:");
-      if (comentario) {
-        alert("Comentário enviado: " + comentario);
-      }
+      if (!videoAtual) return;
+      const comentarios = getComentarios();
+      const chave = chaveUsuarioAtual() + "::" + videoAtual.src;
+      const existente = comentarios[chave] || "";
+
+      const novoComentario = prompt("Seu comentário (privado, só você vê):", existente);
+      if (novoComentario === null) return;
+
+      comentarios[chave] = novoComentario;
+      setComentarios(comentarios);
+      atualizarIndicadorComentario();
     });
   }
 
@@ -323,7 +536,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const encontrada = categorias.findIndex((c) => c.nome.toLowerCase().includes(termo.toLowerCase()));
     if (encontrada >= 0) {
-      carregarVideo(encontrada);
+      carregarCategoria(encontrada);
     }
   }
 
@@ -341,14 +554,6 @@ document.addEventListener("DOMContentLoaded", () => {
       searchInput.value = termoUrl;
       fazerBusca();
     }
-  }
-
-  // Botão "Ajuda" da sidebar (diferente do widget "Sobre Nós")
-  const btnHelpSidebar = document.getElementById("btn-help");
-  if (btnHelpSidebar) {
-    btnHelpSidebar.addEventListener("click", () => {
-      alert("Ajuda / Suporte – em breve!");
-    });
   }
 
   // =========================================
@@ -370,6 +575,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalEditProfile = document.getElementById("modalEditProfile");
   const modalEditProfileClose = document.getElementById("modalEditProfileClose");
   const btnSalvarPerfil = document.getElementById("btnSalvarPerfil");
+  const editFotoInput = document.getElementById("editFotoInput");
+  const editAvatarPreview = document.getElementById("editAvatarPreview");
+
+  // Guarda a nova foto (base64) escolhida no upload até o usuário clicar em "Salvar alterações"
+  let novaFotoSelecionada = null;
+
+  function definirPreviewAvatar(fotoUrl) {
+    if (!editAvatarPreview) return;
+    if (fotoUrl) {
+      editAvatarPreview.innerHTML = `<img src="${fotoUrl}" alt="Pré-visualização">`;
+    } else {
+      editAvatarPreview.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5z"/></svg>`;
+    }
+  }
 
   if (btnEditProfile && modalEditProfile) {
     btnEditProfile.addEventListener("click", () => {
@@ -380,6 +599,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (editNome) editNome.value = localStorage.getItem("artyUserName") || (nomeAtual ? nomeAtual.textContent : "");
       if (editBio) editBio.value = localStorage.getItem("artyUserBio") || (bioAtual ? bioAtual.textContent : "");
+
+      novaFotoSelecionada = null;
+      if (editFotoInput) editFotoInput.value = "";
+      definirPreviewAvatar(localStorage.getItem("artyUserPhoto"));
 
       modalEditProfile.classList.add("open");
     });
@@ -394,6 +617,20 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.target === modalEditProfile) {
         modalEditProfile.classList.remove("open");
       }
+    });
+  }
+
+  if (editFotoInput) {
+    editFotoInput.addEventListener("change", () => {
+      const arquivo = editFotoInput.files && editFotoInput.files[0];
+      if (!arquivo) return;
+
+      const leitor = new FileReader();
+      leitor.onload = () => {
+        novaFotoSelecionada = leitor.result;
+        definirPreviewAvatar(novaFotoSelecionada);
+      };
+      leitor.readAsDataURL(arquivo);
     });
   }
 
@@ -414,7 +651,44 @@ document.addEventListener("DOMContentLoaded", () => {
         if (bioEl) bioEl.textContent = novaBio;
       }
 
+      if (novaFotoSelecionada) {
+        localStorage.setItem("artyUserPhoto", novaFotoSelecionada);
+        carregarIdentidade();
+        novaFotoSelecionada = null;
+      }
+
       if (modalEditProfile) modalEditProfile.classList.remove("open");
+    });
+  }
+
+  // Modal para assistir um vídeo salvo (sempre mudo, igual ao feed)
+  const modalVideoPlayer = document.getElementById("modalVideoPlayer");
+  const modalVideoPlayerVideo = document.getElementById("modalVideoPlayerVideo");
+  const modalVideoPlayerClose = document.getElementById("modalVideoPlayerClose");
+  const modalVideoPlayerLabel = document.getElementById("modalVideoPlayerLabel");
+
+  function abrirVideoSalvo(src, categoria) {
+    if (!modalVideoPlayer || !modalVideoPlayerVideo) return;
+    travarVolume(modalVideoPlayerVideo);
+    modalVideoPlayerVideo.src = src;
+    modalVideoPlayerVideo.loop = true;
+    modalVideoPlayerVideo.muted = true;
+    modalVideoPlayerVideo.volume = 0;
+    if (modalVideoPlayerLabel) modalVideoPlayerLabel.textContent = categoria || "";
+    modalVideoPlayer.classList.add("open");
+    modalVideoPlayerVideo.play().catch(() => {});
+  }
+
+  function fecharVideoSalvo() {
+    if (!modalVideoPlayer || !modalVideoPlayerVideo) return;
+    modalVideoPlayerVideo.pause();
+    modalVideoPlayer.classList.remove("open");
+  }
+
+  if (modalVideoPlayerClose) modalVideoPlayerClose.addEventListener("click", fecharVideoSalvo);
+  if (modalVideoPlayer) {
+    modalVideoPlayer.addEventListener("click", (e) => {
+      if (e.target === modalVideoPlayer) fecharVideoSalvo();
     });
   }
 
@@ -426,7 +700,8 @@ document.addEventListener("DOMContentLoaded", () => {
       lista.forEach((v) => {
         const item = document.createElement("div");
         item.className = "grid-item saved-video-item";
-        item.innerHTML = `<video src="${v.src}" muted preload="metadata"></video><span>${v.caption || "Vídeo salvo"}</span>`;
+        item.innerHTML = `<video src="${v.src}" muted preload="metadata"></video><span>${v.categoria || "Vídeo salvo"}</span>`;
+        item.addEventListener("click", () => abrirVideoSalvo(v.src, v.categoria));
         savedVideosGrid.appendChild(item);
       });
     }
