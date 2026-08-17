@@ -1467,3 +1467,12 @@ body.app-shell.light-mode .action-btn#btn-comment.has-comment::after {
   font-size: 13px;
   color: #ccc;
 }
+
+body.page-index .logo-ifc-header,
+body.page-index .logo-ifc-footer,
+.footer-ifc img.logo-ifc-footer {
+  filter: brightness(0) invert(1) !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
