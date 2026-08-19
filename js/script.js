@@ -81,6 +81,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const nome = localStorage.getItem("artyUserName");
     const foto = localStorage.getItem("artyUserPhoto");
     const bio = localStorage.getItem("artyUserBio");
+    const genero = localStorage.getItem("artyUserGenero");
+    const pronome = localStorage.getItem("artyUserPronome");
+    const endereco = localStorage.getItem("artyUserEndereco");
+    const telefone = localStorage.getItem("artyUserTelefone");
 
     if (foto) {
       document.querySelectorAll("#sidebar-profile").forEach((el) => {
@@ -97,6 +101,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const bioEl = document.querySelector(".profile-bio");
     if (bioEl && bio) bioEl.textContent = bio;
+
+    const metaEl = document.getElementById("profileMeta");
+    if (metaEl) {
+      let html = "";
+      if (genero) html += `<span>${genero}</span>`;
+      if (pronome) html += `<span>${pronome}</span>`;
+      if (endereco) html += `<span>${endereco}</span>`;
+      if (telefone) html += `<span>${telefone}</span>`;
+      metaEl.innerHTML = html;
+    }
   }
 
   carregaPerfil();
@@ -148,6 +162,22 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Conta criada com sucesso! Bem-vindo(a) à Arty.");
         window.location.href = "exposicoes.html";
       }
+    });
+  }
+
+  var togglePassword = document.getElementById("togglePassword");
+  if (togglePassword && senhaInput) {
+    togglePassword.addEventListener("click", () => {
+      const type = senhaInput.type === "password" ? "text" : "password";
+      senhaInput.type = type;
+      togglePassword.textContent = type === "password" ? "👁" : "🙈";
+    });
+  }
+
+  var btnCriarConta = document.getElementById("btnCriarConta");
+  if (btnCriarConta && loginForm) {
+    btnCriarConta.addEventListener("click", () => {
+      loginForm.requestSubmit();
     });
   }
 
@@ -527,13 +557,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (btnEdit && modalEdit) {
     btnEdit.addEventListener("click", () => {
-      const nomeAtual = document.querySelector(".profile-name");
-      const bioAtual = document.querySelector(".profile-bio");
       const editNome = document.getElementById("editNome");
       const editBio = document.getElementById("editBio");
+      const editGenero = document.getElementById("editGenero");
+      const editPronome = document.getElementById("editPronome");
+      const editEndereco = document.getElementById("editEndereco");
+      const editTelefone = document.getElementById("editTelefone");
 
-      if (editNome) editNome.value = localStorage.getItem("artyUserName") || (nomeAtual ? nomeAtual.textContent : "");
-      if (editBio) editBio.value = localStorage.getItem("artyUserBio") || (bioAtual ? bioAtual.textContent : "");
+      if (editNome) editNome.value = localStorage.getItem("artyUserName") || "";
+      if (editBio) editBio.value = localStorage.getItem("artyUserBio") || "";
+      if (editGenero) editGenero.value = localStorage.getItem("artyUserGenero") || "";
+      if (editPronome) editPronome.value = localStorage.getItem("artyUserPronome") || "";
+      if (editEndereco) editEndereco.value = localStorage.getItem("artyUserEndereco") || "";
+      if (editTelefone) editTelefone.value = localStorage.getItem("artyUserTelefone") || "";
 
       novaFoto = null;
       if (editFoto) editFoto.value = "";
@@ -573,6 +609,10 @@ document.addEventListener("DOMContentLoaded", () => {
     btnSalvar.addEventListener("click", () => {
       const novoNome = document.getElementById("editNome").value.trim();
       const novaBio = document.getElementById("editBio").value.trim();
+      const novoGenero = document.getElementById("editGenero") ? document.getElementById("editGenero").value : "";
+      const novoPronome = document.getElementById("editPronome") ? document.getElementById("editPronome").value : "";
+      const novoEndereco = document.getElementById("editEndereco") ? document.getElementById("editEndereco").value.trim() : "";
+      const novoTelefone = document.getElementById("editTelefone") ? document.getElementById("editTelefone").value.trim() : "";
 
       if (novoNome) {
         localStorage.setItem("artyUserName", novoNome);
@@ -580,17 +620,21 @@ document.addEventListener("DOMContentLoaded", () => {
         if (nomeEl) nomeEl.textContent = novoNome;
       }
 
-      if (novaBio) {
-        localStorage.setItem("artyUserBio", novaBio);
-        const bioEl = document.querySelector(".profile-bio");
-        if (bioEl) bioEl.textContent = novaBio;
-      }
+      localStorage.setItem("artyUserBio", novaBio);
+      const bioEl = document.querySelector(".profile-bio");
+      if (bioEl) bioEl.textContent = novaBio || "Artista e criador(a) na Arty. Conte um pouco sobre seu estilo e suas inspirações aqui.";
+
+      localStorage.setItem("artyUserGenero", novoGenero);
+      localStorage.setItem("artyUserPronome", novoPronome);
+      localStorage.setItem("artyUserEndereco", novoEndereco);
+      localStorage.setItem("artyUserTelefone", novoTelefone);
 
       if (novaFoto) {
         localStorage.setItem("artyUserPhoto", novaFoto);
-        carregaPerfil();
         novaFoto = null;
       }
+
+      carregaPerfil();
 
       if (modalEdit) modalEdit.classList.remove("open");
     });

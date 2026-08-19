@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arty – Perfil</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="page-perfil app-shell">
 
@@ -41,23 +44,27 @@
       <span class="page-title">Perfil</span>
     </header>
 
-    <section id="feed" style="flex-direction:column; align-items:stretch; padding:0;">
+    <section id="feed" class="profile-feed">
 
-      <div class="profile-header">
-        
-        <div class="profile-avatar-lg">
-          <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5z"/></svg>
-        </div>
-        <div>
-          <div class="profile-name">Seu Nome</div>
-          <p class="profile-bio">Artista e criador(a) na Arty. Conte um pouco sobre seu estilo e suas inspirações aqui.</p>
-          <button class="edit-profile-btn" id="btnEditProfile">Editar perfil</button>
+      <div class="profile-card">
+        <div class="profile-top">
+          <div class="profile-avatar-lg">
+            <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5z"/></svg>
+          </div>
+          <div class="profile-info">
+            <div class="profile-name">Seu Nome</div>
+            <p class="profile-bio">Artista e criador(a) na Arty. Conte um pouco sobre seu estilo e suas inspirações aqui.</p>
+            <div class="profile-meta" id="profileMeta"></div>
+            <button class="edit-profile-btn" id="btnEditProfile">Editar perfil</button>
+          </div>
         </div>
       </div>
 
-      <h3 class="profile-section-title">Vídeos salvos</h3>
-      <div class="profile-grid" id="savedVideosGrid">
-        <p class="empty-saved-msg" id="emptySavedMsg">Você ainda não salvou nenhum vídeo.</p>
+      <div class="profile-videos-section">
+        <h3 class="profile-section-title">Vídeos salvos</h3>
+        <div class="profile-grid" id="savedVideosGrid">
+          <p class="empty-saved-msg" id="emptySavedMsg">Você ainda não salvou nenhum vídeo.</p>
+        </div>
       </div>
 
     </section>
@@ -70,11 +77,10 @@
   </button>
 
   <div class="modal-overlay" id="modalEditProfile">
-    <div class="modal-card">
+    <div class="modal-card modal-edit-profile">
       <button class="modal-close" id="modalEditProfileClose" aria-label="Fechar">&times;</button>
       <h2>Editar perfil</h2>
 
-      <label>Foto de perfil</label>
       <div class="edit-avatar-row">
         <div class="edit-avatar-preview" id="editAvatarPreview">
           <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5z"/></svg>
@@ -85,8 +91,41 @@
 
       <label for="editNome">Nome de usuário</label>
       <input type="text" id="editNome" placeholder="Seu nome de usuário">
+
       <label for="editBio">Descrição</label>
       <textarea id="editBio" rows="3" placeholder="Conte um pouco sobre seu estilo e suas inspirações"></textarea>
+
+      <div class="edit-optional-title">Informações opcionais</div>
+
+      <div class="edit-row">
+        <div class="edit-col">
+          <label for="editGenero">Gênero</label>
+          <select id="editGenero">
+            <option value="">Prefiro não informar</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+            <option value="Não-binário">Não-binário</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+        <div class="edit-col">
+          <label for="editPronome">Pronome</label>
+          <select id="editPronome">
+            <option value="">Prefiro não informar</option>
+            <option value="ele/dele">ele/dele</option>
+            <option value="ela/dela">ela/dela</option>
+            <option value="elu/delu">elu/delu</option>
+            <option value="outro">outro</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="editEndereco">Cidade - Estado</label>
+      <input type="text" id="editEndereco" placeholder="Ex: Concórdia - SC">
+
+      <label for="editTelefone">Telefone</label>
+      <input type="tel" id="editTelefone" placeholder="Ex: (49) 99999-9999">
+
       <button class="edit-profile-btn edit-profile-save" id="btnSalvarPerfil">Salvar alterações</button>
     </div>
   </div>
