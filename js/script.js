@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   var categorias = [
     {
-      id: "ideias-desenho",
       nome: "Ideias de Desenho",
       videos: [
         { src: "videos/vid1.mp4" },
@@ -13,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ]
     },
     {
-      id: "pinturas",
       nome: "Pinturas",
       videos: [
         { src: "videos/vid6.mp4" },
@@ -24,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ]
     },
     {
-      id: "escultura",
       nome: "Escultura",
       videos: [
         { src: "videos/vid11.mp4" },
@@ -35,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ]
     },
     {
-      id: "design-digital",
       nome: "Design Digital",
       videos: [
         { src: "videos/vid16.mp4" },
@@ -537,12 +533,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  var btnEdit = document.getElementById("btnEditProfile") || document.getElementById("btnEdit");
-  var modalEdit = document.getElementById("modalEditProfile") || document.getElementById("modalEdit");
-  const modalEditClose = document.getElementById("modalEditProfileClose") || document.getElementById("modalEditClose");
-  var btnSalvar = document.getElementById("btnSalvarPerfil") || document.getElementById("btnSalvar");
-  var editFoto = document.getElementById("editFotoInput") || document.getElementById("editFoto");
-  var previewFoto = document.getElementById("editAvatarPreview") || document.getElementById("previewFoto");
+  var btnEdit = document.getElementById("btnEditProfile");
+  var modalEdit = document.getElementById("modalEditProfile");
+  const modalEditClose = document.getElementById("modalEditProfileClose");
+  var btnSalvar = document.getElementById("btnSalvarPerfil");
+  var editFoto = document.getElementById("editFotoInput");
+  var previewFoto = document.getElementById("editAvatarPreview");
 
   var novaFoto = null;
 
@@ -640,10 +636,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  var modalVideo = document.getElementById("modalVideoPlayer") || document.getElementById("modalVideo");
-  const modalVideoVideo = document.getElementById("modalVideoPlayerVideo") || document.getElementById("modalVideoVideo");
-  const modalVideoClose = document.getElementById("modalVideoPlayerClose") || document.getElementById("modalVideoClose");
-  const modalVideoLabel = document.getElementById("modalVideoPlayerLabel") || document.getElementById("modalVideoLabel");
+  var modalVideo = document.getElementById("modalVideoPlayer");
+  const modalVideoVideo = document.getElementById("modalVideoPlayerVideo");
+  const modalVideoClose = document.getElementById("modalVideoPlayerClose");
+  const modalVideoLabel = document.getElementById("modalVideoPlayerLabel");
 
   function abreVideo(src, categoria) {
     if (!modalVideo || !modalVideoVideo) return;
@@ -670,7 +666,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  var gridSalvos = document.getElementById("savedVideosGrid") || document.getElementById("gridSalvos");
+  var gridSalvos = document.getElementById("savedVideosGrid");
   if (gridSalvos) {
     const lista = pegaSalvos();
     if (lista.length) {
