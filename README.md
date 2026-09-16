@@ -90,6 +90,8 @@ Os materiais acadêmicos e de planejamento estão na pasta `documentacao/`:
 
 O wireframe final representa a versão consolidada do planejamento visual. O protótipo anterior foi mantido apenas como registro do processo de desenvolvimento.
 
+Os wireframes foram planejados e desenvolvidos no Figma antes da implementação do protótipo em HTML, CSS e JavaScript.
+
 ### Proposta planejada
 
 O briefing e o Canvas apresentam uma plataforma social para artistas, com publicação de desenhos, imagens, músicas e projetos, além de curtidas, comentários, reposts, seguidores, coleções, recomendações e pesquisa inteligente. Também é discutida a possibilidade de um verificador de conteúdo gerado por inteligência artificial.
